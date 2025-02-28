@@ -123,9 +123,9 @@ const getAllUsers = async (req, res) => {
 		var sortingOrder = req.query.sortingOrder;
 		let allUsers;
 		if (req.query.sortingKey && req.query.sortingOrder) {
-			allUsers = await User.find({}, { password: 0, createdAt: 0, updatedAt: 0 }).sort({ [sortingKey]: sortingOrder }).skip(offset).limit(limit)
+			allUsers = await User.find({ "isActive": true }, { password: 0, createdAt: 0, updatedAt: 0 }).sort({ [sortingKey]: sortingOrder }).skip(offset).limit(limit)
 		} else {
-			allUsers = await User.find({}, { password: 0, createdAt: 0, updatedAt: 0 }).skip(offset).limit(limit)
+			allUsers = await User.find({ "isActive": true }, { password: 0, createdAt: 0, updatedAt: 0 }).skip(offset).limit(limit)
 		}
 
 
