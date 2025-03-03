@@ -41,10 +41,10 @@ productRouter.get("/listing", productPaginationValidation, getAllProducts)
 productRouter.put("/update/:id", productIdValidator, uploadFileAndValidateOnUpdate, updateProductValidator, updateProduct)
 
 //Activating Product Api
-productRouter.put("/activate/:id", productIdValidator, productActivateValidator, activateProduct)
+productRouter.put("/activate/:id", productIdValidator, activateProduct)
 
 //Deactivating Product Api
-productRouter.put("/deactivate/:id", productIdValidator, productDeactivateValidator, deactivateProduct)
+productRouter.put("/deactivate/:id", productIdValidator, deactivateProduct)
 
 //deleteproductbyid api
 productRouter.delete("/delete/:id", productIdValidator, deleteProductById)

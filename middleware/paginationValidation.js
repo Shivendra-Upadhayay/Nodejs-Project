@@ -1,7 +1,7 @@
 import joi from "joi"
 
 
-//Added code to validate pagination, sorting to product
+//Added code to validate pagination, sorting to user
 const userPaginationValidation = (req, res, next) => {
 	const paginationSchema = joi.object({
 		page: joi.number().min(0).optional(),

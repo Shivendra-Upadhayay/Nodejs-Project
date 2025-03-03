@@ -229,7 +229,7 @@ const getAllProducts = async (req, res) => {
 }
 
 //Activate Product Controller
-const activateProduct = async (req, res, next) => {
+const activateProduct = async (req, res) => {
 
 	try {
 		const _id = req.params.id; 	//extracting id from params
@@ -245,7 +245,14 @@ const activateProduct = async (req, res, next) => {
 			})
 		}
 
-		const updateStatus = await Product.findByIdAndUpdate({ _id, isActive: false }, req.body)
+		const updateStatus = await Product.findByIdAndUpdate(
+			{ _id },
+			{
+				$set: {
+					"isActive": true
+				}
+			}
+		)
 
 		if (!updateStatus) {
 
@@ -273,11 +280,11 @@ const activateProduct = async (req, res, next) => {
 }
 
 //Deactivating Product Controller
-const deactivateProduct = async (req, res, next) => {
+const deactivateProduct = async (req, res) => {
 
 	const _id = req.params.id; 	//extracting id from params
 
-	const productStatus = await Product.findById({ _id, isActive: false })
+	const productStatus = await Product.findOne({ _id, isActive: false })
 
 	// checking product is already deactivate or not
 	if (productStatus) {
@@ -288,7 +295,13 @@ const deactivateProduct = async (req, res, next) => {
 		})
 	}
 
-	const updateStatus = await Product.findByIdAndUpdate({ _id, isActive: true }, req.body)
+	const updateStatus = await Product.findByIdAndUpdate(
+		{ _id, isActive: true },
+		{
+			$set: {
+				"isActive": false
+			}
+		})
 
 	if (!updateStatus) {
 

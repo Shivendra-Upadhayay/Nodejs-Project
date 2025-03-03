@@ -193,7 +193,14 @@ const activateUser = async (req, res) => {
 			message: "User is already activate"
 		})
 	}
-	const activateUser = await User.findByIdAndUpdate({ _id, isActive: false }, req.body)
+	const activateUser = await User.findByIdAndUpdate(
+		{ _id },
+		{
+			$set: {
+				"isActive": true
+			}
+		}
+	)
 
 	if (!activateUser) {
 		return res.status(404).json({
@@ -222,8 +229,13 @@ const deactivateUser = async (req, res) => {
 			})
 		}
 
-		const deactivateUser = await User.findByIdAndUpdate({ _id, isActive: true },
-			req.body)
+		const deactivateUser = await User.findByIdAndUpdate({ _id },
+			{
+				$set: {
+					"isActive": false
+				}
+			}
+		)
 		if (!deactivateUser) {
 			return res.status(404).json({
 				success: false,

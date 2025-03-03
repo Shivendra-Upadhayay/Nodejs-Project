@@ -78,7 +78,7 @@ const productActivateValidator = async (req, res, next) => {
 		return res.status(400).json({
 			success: false,
 			message: error.name,
-			error: error.details.map(detail => detail.message.replace(/"/g, ""))
+			error: error.details.map(detail => detail.message.replace(/"/g, "").replace(/\[true\]/g, "true"))
 		})
 	}
 
@@ -90,7 +90,7 @@ const productActivateValidator = async (req, res, next) => {
 const productDeactivateValidator = async (req, res, next) => {
 
 	const deactivateProductSchema = joi.object({
-		isActive: joi.boolean().validate(false).required()
+		isActive: joi.boolean().valid(false).required()
 	})
 
 	const { error } = deactivateProductSchema.validate(req.body, { abortEarly: false });
@@ -99,7 +99,7 @@ const productDeactivateValidator = async (req, res, next) => {
 		return res.status(400).json({
 			success: false,
 			message: error.name,
-			error: error.details.map(detail => detail.message.replace(/"/g, ""))
+			error: error.details.map(detail => detail.message.replace(/"/g, "").replace(/\[false\]/g, "false"))
 		})
 	}
 }

@@ -8,7 +8,7 @@ const userSignupInputValidator = async (req, res, next) => {
 	const userSchema = joi.object({
 		firstName: joi.string().required().min(3).max(15),
 		lastName: joi.string().required().min(3).max(20),
-		username: joi.string().alphanum().max(15).required().min(4).max(20),
+		username: joi.string().alphanum().max(15).required().min(4),
 		email: joi.string().email().required().min(12).max(25),
 		password: joiPassword
 			.string()
@@ -68,7 +68,7 @@ const userActivateValidator = async (req, res, next) => {
 		return res.status(400).json({
 			success: false,
 			message: error.name,
-			error: error.details.map(error => error.message.replace(/"/g, ""))
+			error: error.details.map(error => error.message.replace(/"/g, "").replace(/\[true\]/g, "true"))
 		})
 	}
 	next()
@@ -84,7 +84,7 @@ const userDeactivateValidator = async (req, res, next) => {
 		return res.status(400).json({
 			success: false,
 			message: error.name,
-			errror: error.details.map(detail => detail.message.replace(/"/g, ""))
+			errror: error.details.map(detail => detail.message.replace(/"/g, "").replace(/\[false\]/g, "false"))
 		})
 	}
 	next()

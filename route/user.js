@@ -34,10 +34,10 @@ userRouter.put("/update/:id", userIdValidator, updateUserDetailsValidator, updat
 userRouter.delete("/delete/:id", userIdValidator, deleteUser)
 
 // activate user
-userRouter.put("/activate/:id", userIdValidator, userActivateValidator, activateUser)
+userRouter.put("/activate/:id", userIdValidator, activateUser)
 
 //deactvate user 
-userRouter.put("/deactivate/:id", userIdValidator, userDeactivateValidator, deactivateUser)
+userRouter.put("/deactivate/:id", userIdValidator, deactivateUser)
 
 //getting user by id
 userRouter.get("/:id", userIdValidator, getUserById)
