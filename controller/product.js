@@ -27,17 +27,18 @@ const addProduct = async (req, res) => {
 		//ImageUrl
 		const imageUrl = `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
 
-		const image = req.file.filename
-		const data = new Product({
+		const image = req.file.filename;
+		//saving new product in db
+		const data = await new Product({
 			name,
 			price,
 			category,
 			description,
 			image,
 			isActive
-		})
-		//saving new product in db
-		const addProduct = await data.save()
+		}).save();
+
+
 
 		// Updating Product by Id
 		const newProduct = await Product.findById({ _id: addProduct._id }, { createdAt: 0, updatedAt: 0 }, { new: true })
@@ -189,7 +190,8 @@ const getAllProducts = async (req, res) => {
 	try {
 		let page = Number(req.query.page) || 1;
 		const totalProducts = await Product.countDocuments();
-		const limit = Number(req.query.limit) || 2;
+		let limit = Number(req.query.limit) || 2;
+		limit = limit > 50 ? 5 : Number(req.query.limit)
 		const totalPage = Math.floor(totalProducts / limit)
 		const skip = (page - 1) * limit;
 		var sortingKey = req.query.sortingKey;

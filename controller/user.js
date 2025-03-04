@@ -20,16 +20,15 @@ const userSignup = async (req, res) => {
 				message: "User already Signed up!"
 			})
 		}
-		const doc = new User({
+		const savedUser = await new User({
 			firstName,
 			lastName,
 			username,
 			email,
 			password,
 			role
-		})
+		}).save();
 
-		const savedUser = await doc.save();
 		const newUser = await User.findOne({ email }, { password: 0, createdAt: 0, updatedAt: 0 })
 		return res.status(201).json({
 			success: true,
@@ -116,7 +115,8 @@ const getAllUsers = async (req, res) => {
 	try {
 		let page = Number(req.query.page) || 1;
 		const totalUsers = await User.countDocuments();
-		const limit = Number(req.query.limit) || 2;
+		let limit = Number(req.query.limit) || 2;
+		limit = limit > 50 ? 5 : Number(req.query.limit)
 		const totalPage = Math.floor(totalUsers / limit)
 		const offset = (page - 1) * limit;
 		var sortingKey = req.query.sortingKey;
@@ -127,7 +127,6 @@ const getAllUsers = async (req, res) => {
 		} else {
 			allUsers = await User.find({ "isActive": true }, { password: 0, createdAt: 0, updatedAt: 0 }).skip(offset).limit(limit)
 		}
-
 
 		if (!allUsers) {
 			return res.status(404).json({

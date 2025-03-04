@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 const connectDatabase = async () => {
 	try {
+		// mongoose.set('debug',true) // checks all query 
 		const Db_Url = "mongodb://127.0.0.1/27017/";
 		await mongoose.connect(Db_Url, {
 			dbName: 'BrainmobiUser'
